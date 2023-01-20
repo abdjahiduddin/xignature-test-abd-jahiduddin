@@ -6,7 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class UserSignUpDto {
+export class UserSignInDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
@@ -17,7 +17,8 @@ export class UserSignUpDto {
   @MinLength(8)
   @MaxLength(32)
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password is to weak',
+    message:
+      'Password length 8 to 32 and must contain at least 1 upper case letter, 1 lower case letter, 1 number or special character',
   })
   password: string;
 }

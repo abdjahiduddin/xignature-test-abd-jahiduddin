@@ -12,7 +12,7 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
   const port = configService.get('HOST_PORT');
-  const env = process.env.STAGE;
+  const env = process.env.STAGE.toUpperCase();
 
   await app.listen(port);
   logger.log(`${env}, Application listening on port ${port}`);
