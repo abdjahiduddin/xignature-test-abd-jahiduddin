@@ -1,21 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { UserSignUpDto } from './dto/user-signup.dto';
-import {
-  CreateUserResponse,
-  DeleteUserResponse,
-} from './interface/response.interface';
-import { User } from './entity/user.entity';
+import { DeleteUserResponse } from './user.interface';
+import { User } from 'src/entity/user.entity';
 import { UserUpdateDto } from './dto/user-update.dto';
 import { NotFoundException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
-
-  async signUp(userSignUpDto: UserSignUpDto): Promise<CreateUserResponse> {
-    return this.userRepository.createUser(userSignUpDto);
-  }
 
   async getUsers(): Promise<User[]> {
     return await this.userRepository.find({
@@ -44,7 +36,7 @@ export class UserService {
     return {
       id,
       status: 'success',
-      message: 'Successfully deleted user',
+      message: 'Successfully delete user',
     };
   }
 }

@@ -1,7 +1,6 @@
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entity/user.entity';
-import { UserSignUpDto } from './dto/user-signup.dto';
+import { User } from 'src/entity/user.entity';
 import * as bcrypt from 'bcrypt';
 import {
   BadRequestException,
@@ -10,7 +9,6 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CreateUserResponse } from './interface/response.interface';
 import { UserUpdateDto } from './dto/user-update.dto';
 
 export class UserRepository extends Repository<User> {
@@ -23,37 +21,6 @@ export class UserRepository extends Repository<User> {
       userRepository.manager,
       userRepository.queryRunner,
     );
-  }
-
-  async createUser(userSignUpDto: UserSignUpDto): Promise<CreateUserResponse> {
-    const { username, fullname, email, password } = userSignUpDto;
-
-    try {
-      const salt = await bcrypt.genSalt();
-      const hashPassword = await bcrypt.hash(password, salt);
-
-      const user = this.create({
-        username,
-        fullname,
-        email,
-        password: hashPassword,
-      });
-
-      await this.save(user);
-
-      return {
-        id: user.id,
-        status: 'success',
-        message: `Successfully create user ${username}`,
-        created_at: user.created_at,
-      };
-    } catch (error) {
-      if (error.code === '23505') {
-        throw new ConflictException('Username or email already exists');
-      } else {
-        throw new InternalServerErrorException();
-      }
-    }
   }
 
   async getUserById(id: string): Promise<User> {
@@ -81,6 +48,10 @@ export class UserRepository extends Repository<User> {
       userUpdateDto;
 
     const user = await this.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
 
     if (username) {
       user.username = username;
