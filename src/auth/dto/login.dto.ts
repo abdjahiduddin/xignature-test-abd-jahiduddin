@@ -6,7 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class UserSignInDto {
+export class LoginDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(3)

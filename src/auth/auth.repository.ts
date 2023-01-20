@@ -41,7 +41,6 @@ export class AuthRepository extends Repository<User> {
         id: user.id,
         status: 'success',
         message: `Successfully create user ${username}`,
-        created_at: user.created_at,
       };
     } catch (error) {
       if (error.code === '23505') {
