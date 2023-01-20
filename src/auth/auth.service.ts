@@ -21,9 +21,12 @@ export class AuthService {
     const { username, password } = loginDto;
 
     const user = await this.authRepository.findOneBy({ username });
-    const isMatch = await bcrypt.compare(password, user.password);
+    if (!user) {
+      throw new UnauthorizedException('Please check your login credentials');
+    }
 
-    if (user && isMatch) {
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) {
       const payload: JwtPayload = {
         id: user.id,
         username,

@@ -10,6 +10,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UserUpdateDto } from './dto/user-update.dto';
+import { isAuthorized } from 'src/helper/auth.helper';
 
 export class UserRepository extends Repository<User> {
   constructor(
@@ -23,7 +24,9 @@ export class UserRepository extends Repository<User> {
     );
   }
 
-  async getUserById(id: string): Promise<User> {
+  async getUserById(id: string, authUser: User): Promise<User> {
+    isAuthorized(id, authUser.id);
+
     const found = await this.userRepository.findOne({
       where: { id },
       select: {
@@ -43,7 +46,13 @@ export class UserRepository extends Repository<User> {
     return found;
   }
 
-  async updateUser(id: string, userUpdateDto: UserUpdateDto): Promise<User> {
+  async updateUser(
+    id: string,
+    userUpdateDto: UserUpdateDto,
+    authUser: User,
+  ): Promise<User> {
+    isAuthorized(id, authUser.id);
+
     const { username, fullname, email, oldPassword, newPassword } =
       userUpdateDto;
 

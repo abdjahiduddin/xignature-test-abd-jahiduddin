@@ -4,6 +4,7 @@ import { DeleteUserResponse } from './user.interface';
 import { User } from 'src/entity/user.entity';
 import { UserUpdateDto } from './dto/user-update.dto';
 import { NotFoundException } from '@nestjs/common/exceptions';
+import { isAuthorized } from 'src/helper/auth.helper';
 
 @Injectable()
 export class UserService {
@@ -18,15 +19,21 @@ export class UserService {
     });
   }
 
-  getUserById(id: string): Promise<User> {
-    return this.userRepository.getUserById(id);
+  getUserById(id: string, authUser: User): Promise<User> {
+    return this.userRepository.getUserById(id, authUser);
   }
 
-  async updateUser(id: string, userUpdateDto: UserUpdateDto): Promise<User> {
-    return this.userRepository.updateUser(id, userUpdateDto);
+  async updateUser(
+    id: string,
+    userUpdateDto: UserUpdateDto,
+    authUser: User,
+  ): Promise<User> {
+    return this.userRepository.updateUser(id, userUpdateDto, authUser);
   }
 
-  async deleteUser(id: string): Promise<DeleteUserResponse> {
+  async deleteUser(id: string, authUser: User): Promise<DeleteUserResponse> {
+    isAuthorized(id, authUser.id);
+
     const result = await this.userRepository.delete({ id });
 
     if (result.affected === 0) {
