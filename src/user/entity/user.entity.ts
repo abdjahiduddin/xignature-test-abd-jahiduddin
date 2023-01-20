@@ -20,7 +20,7 @@ export class User {
   @Column()
   fullname: string;
 
-  @Column({ select: false })
+  @Column()
   password: string;
 
   @CreateDateColumn()
