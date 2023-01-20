@@ -42,6 +42,8 @@ export class UserRepository extends Repository<User> {
       await this.save(user);
 
       return {
+        id: user.id,
+        status: 'success',
         message: `Successfully create user ${username}`,
         created_at: user.created_at,
       };
