@@ -7,3 +7,9 @@ export interface SignUpResponse {
 export interface LoginResponse {
   accessToken: string;
 }
+
+export interface JwtPayload {
+  id: string;
+  username: string;
+  created_at: string;
+}

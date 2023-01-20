@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthRepository } from './auth.repository';
 import { SignUpDto } from './dto/signup.dto';
-import { LoginResponse, SignUpResponse } from './auth.interface';
+import { JwtPayload, LoginResponse, SignUpResponse } from './auth.interface';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -24,7 +24,7 @@ export class AuthService {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (user && isMatch) {
-      const payload = {
+      const payload: JwtPayload = {
         id: user.id,
         username,
         created_at: new Date().toISOString(),
