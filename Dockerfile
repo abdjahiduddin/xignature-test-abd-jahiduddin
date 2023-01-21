@@ -10,4 +10,4 @@ COPY . .
 RUN yarn build
 
 EXPOSE 80
-CMD ["node", "dist/main"]
+CMD ["node", "dist/main.js"]
