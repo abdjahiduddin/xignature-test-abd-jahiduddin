@@ -10,7 +10,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UserUpdateDto } from './dto/user-update.dto';
-import { isAuthorized } from 'src/helper/auth.helper';
+import { isAuthorized } from 'src/utils/helper/auth.helper';
 
 export class UserRepository extends Repository<User> {
   constructor(

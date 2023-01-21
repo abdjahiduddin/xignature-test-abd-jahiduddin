@@ -4,7 +4,7 @@ import { DeleteUserResponse } from './user.interface';
 import { User } from 'src/entity/user.entity';
 import { UserUpdateDto } from './dto/user-update.dto';
 import { NotFoundException } from '@nestjs/common/exceptions';
-import { isAuthorized } from 'src/helper/auth.helper';
+import { isAuthorized } from 'src/utils/helper/auth.helper';
 
 @Injectable()
 export class UserService {

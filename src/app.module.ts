@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { configValidationSchema } from './config.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config/dist';
-import { LoggerMiddleware } from './middleware/logger.middleware';
+import { LoggerMiddleware } from './utils/middleware/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
